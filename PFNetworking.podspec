@@ -13,21 +13,21 @@ Pod::Spec.new do |s|
   s.osx.deployment_target = '10.8'
 
   s.public_header_files = 'PFNetworking/*.h'
-  s.source_files = 'PFNetworking/AFNetworking.h'
+  s.source_files = 'PFNetworking/PFNetworking.h'
 
   s.subspec 'Serialization' do |ss|
-    ss.source_files = 'PFNetworking/AFURL{Request,Response}Serialization.{h,m}'
+    ss.source_files = 'PFNetworking/PFURL{Request,Response}Serialization.{h,m}'
     ss.ios.frameworks = 'MobileCoreServices', 'CoreGraphics'
     ss.osx.frameworks = 'CoreServices'
   end
 
   s.subspec 'Security' do |ss|
-    ss.source_files = 'PFNetworking/AFSecurityPolicy.{h,m}'
+    ss.source_files = 'PFNetworking/PFSecurityPolicy.{h,m}'
     ss.frameworks = 'Security'
   end
 
   s.subspec 'Reachability' do |ss|
-    ss.source_files = 'PFNetworking/AFNetworkReachabilityManager.{h,m}'
+    ss.source_files = 'PFNetworking/PFNetworkReachabilityManager.{h,m}'
     ss.frameworks = 'SystemConfiguration'
   end
 
@@ -36,7 +36,7 @@ Pod::Spec.new do |s|
     ss.dependency 'PFNetworking/Reachability'
     ss.dependency 'PFNetworking/Security'
 
-    ss.source_files = 'PFNetworking/AFURLConnectionOperation.{h,m}', 'PFNetworking/AFHTTPRequestOperation.{h,m}', 'PFNetworking/AFHTTPRequestOperationManager.{h,m}'
+    ss.source_files = 'PFNetworking/PFURLConnectionOperation.{h,m}', 'PFNetworking/PFHTTPRequestOperation.{h,m}', 'PFNetworking/PFHTTPRequestOperationManager.{h,m}'
   end
 
   s.subspec 'NSURLSession' do |ss|
@@ -44,7 +44,7 @@ Pod::Spec.new do |s|
     ss.dependency 'PFNetworking/Reachability'
     ss.dependency 'PFNetworking/Security'
 
-    ss.source_files = 'PFNetworking/AFURLSessionManager.{h,m}', 'PFNetworking/AFHTTPSessionManager.{h,m}'
+    ss.source_files = 'PFNetworking/PFURLSessionManager.{h,m}', 'PFNetworking/PFHTTPSessionManager.{h,m}'
   end
 
   s.subspec 'UIKit' do |ss|
