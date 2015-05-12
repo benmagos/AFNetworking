@@ -1,6 +1,6 @@
-// AFNetworkActivityIndicatorManager.h
+// PFNetworkActivityIndicatorManager.h
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 PFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -29,18 +29,18 @@
 #import <UIKit/UIKit.h>
 
 /**
- `AFNetworkActivityIndicatorManager` manages the state of the network activity indicator in the status bar. When enabled, it will listen for notifications indicating that a network request operation has started or finished, and start or stop animating the indicator accordingly. The number of active requests is incremented and decremented much like a stack or a semaphore, and the activity indicator will animate so long as that number is greater than zero.
+ `PFNetworkActivityIndicatorManager` manages the state of the network activity indicator in the status bar. When enabled, it will listen for notifications indicating that a network request operation has started or finished, and start or stop animating the indicator accordingly. The number of active requests is incremented and decremented much like a stack or a semaphore, and the activity indicator will animate so long as that number is greater than zero.
 
- You should enable the shared instance of `AFNetworkActivityIndicatorManager` when your application finishes launching. In `AppDelegate application:didFinishLaunchingWithOptions:` you can do so with the following code:
+ You should enable the shared instance of `PFNetworkActivityIndicatorManager` when your application finishes launching. In `AppDelegate application:didFinishLaunchingWithOptions:` you can do so with the following code:
 
-    [[AFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
+    [[PFNetworkActivityIndicatorManager sharedManager] setEnabled:YES];
 
  By setting `enabled` to `YES` for `sharedManager`, the network activity indicator will show and hide automatically as requests start and finish. You should not ever need to call `incrementActivityCount` or `decrementActivityCount` yourself.
 
  See the Apple Human Interface Guidelines section about the Network Activity Indicator for more information:
  http://developer.apple.com/library/iOS/#documentation/UserExperience/Conceptual/MobileHIG/UIElementGuidelines/UIElementGuidelines.html#//apple_ref/doc/uid/TP40006556-CH13-SW44
  */
-@interface AFNetworkActivityIndicatorManager : NSObject
+@interface PFNetworkActivityIndicatorManager : NSObject
 
 /**
  A Boolean value indicating whether the manager is enabled.

@@ -1,6 +1,6 @@
-// UIWebView+AFNetworking.h
+// UIWebView+PFNetworking.h
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 PFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,25 +28,25 @@
 
 #import <UIKit/UIKit.h>
 
-@class AFHTTPRequestSerializer, AFHTTPResponseSerializer;
-@protocol AFURLRequestSerialization, AFURLResponseSerialization;
+@class PFHTTPRequestSerializer, PFHTTPResponseSerializer;
+@protocol PFURLRequestSerialization, PFURLResponseSerialization;
 
 /**
  This category adds methods to the UIKit framework's `UIWebView` class. The methods in this category provide increased control over the request cycle, including progress monitoring and success / failure handling.
 
- @discussion When using these category methods, make sure to assign `delegate` for the web view, which implements `–webView:shouldStartLoadWithRequest:navigationType:` appropriately. This allows for tapped links to be loaded through AFNetworking, and can ensure that `canGoBack` & `canGoForward` update their values correctly.
+ @discussion When using these category methods, make sure to assign `delegate` for the web view, which implements `–webView:shouldStartLoadWithRequest:navigationType:` appropriately. This allows for tapped links to be loaded through PFNetworking, and can ensure that `canGoBack` & `canGoForward` update their values correctly.
  */
-@interface UIWebView (AFNetworking)
+@interface UIWebView (PFNetworking)
 
 /**
- The request serializer used to serialize requests made with the `-loadRequest:...` category methods. By default, this is an instance of `AFHTTPRequestSerializer`.
+ The request serializer used to serialize requests made with the `-loadRequest:...` category methods. By default, this is an instance of `PFHTTPRequestSerializer`.
  */
-@property (nonatomic, strong) AFHTTPRequestSerializer <AFURLRequestSerialization> * requestSerializer;
+@property (nonatomic, strong) PFHTTPRequestSerializer <PFURLRequestSerialization> * requestSerializer;
 
 /**
- The response serializer used to serialize responses made with the `-loadRequest:...` category methods. By default, this is an instance of `AFHTTPResponseSerializer`.
+ The response serializer used to serialize responses made with the `-loadRequest:...` category methods. By default, this is an instance of `PFHTTPResponseSerializer`.
  */
-@property (nonatomic, strong) AFHTTPResponseSerializer <AFURLResponseSerialization> * responseSerializer;
+@property (nonatomic, strong) PFHTTPResponseSerializer <PFURLResponseSerialization> * responseSerializer;
 
 /**
  Asynchronously loads the specified request.

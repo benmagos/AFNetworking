@@ -1,6 +1,6 @@
-// UIWebView+AFNetworking.m
+// UIWebView+PFNetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 PFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,27 +20,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIWebView+AFNetworking.h"
+#import "UIWebView+PFNetworking.h"
 
 #import <objc/runtime.h>
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
-#import "AFHTTPRequestOperation.h"
-#import "AFURLResponseSerialization.h"
-#import "AFURLRequestSerialization.h"
+#import "PFHTTPRequestOperation.h"
+#import "PFURLResponseSerialization.h"
+#import "PFURLRequestSerialization.h"
 
-@interface UIWebView (_AFNetworking)
-@property (readwrite, nonatomic, strong, setter = af_setHTTPRequestOperation:) AFHTTPRequestOperation *af_HTTPRequestOperation;
+@interface UIWebView (_PFNetworking)
+@property (readwrite, nonatomic, strong, setter = af_setHTTPRequestOperation:) PFHTTPRequestOperation *af_HTTPRequestOperation;
 @end
 
-@implementation UIWebView (_AFNetworking)
+@implementation UIWebView (_PFNetworking)
 
-- (AFHTTPRequestOperation *)af_HTTPRequestOperation {
-    return (AFHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_HTTPRequestOperation));
+- (PFHTTPRequestOperation *)af_HTTPRequestOperation {
+    return (PFHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_HTTPRequestOperation));
 }
 
-- (void)af_setHTTPRequestOperation:(AFHTTPRequestOperation *)operation {
+- (void)af_setHTTPRequestOperation:(PFHTTPRequestOperation *)operation {
     objc_setAssociatedObject(self, @selector(af_HTTPRequestOperation), operation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -48,13 +48,13 @@
 
 #pragma mark -
 
-@implementation UIWebView (AFNetworking)
+@implementation UIWebView (PFNetworking)
 
-- (AFHTTPRequestSerializer <AFURLRequestSerialization> *)requestSerializer {
-    static AFHTTPRequestSerializer <AFURLRequestSerialization> *_af_defaultRequestSerializer = nil;
+- (PFHTTPRequestSerializer <PFURLRequestSerialization> *)requestSerializer {
+    static PFHTTPRequestSerializer <PFURLRequestSerialization> *_af_defaultRequestSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultRequestSerializer = [AFHTTPRequestSerializer serializer];
+        _af_defaultRequestSerializer = [PFHTTPRequestSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -63,15 +63,15 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setRequestSerializer:(AFHTTPRequestSerializer<AFURLRequestSerialization> *)requestSerializer {
+- (void)setRequestSerializer:(PFHTTPRequestSerializer<PFURLRequestSerialization> *)requestSerializer {
     objc_setAssociatedObject(self, @selector(requestSerializer), requestSerializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
-- (AFHTTPResponseSerializer <AFURLResponseSerialization> *)responseSerializer {
-    static AFHTTPResponseSerializer <AFURLResponseSerialization> *_af_defaultResponseSerializer = nil;
+- (PFHTTPResponseSerializer <PFURLResponseSerialization> *)responseSerializer {
+    static PFHTTPResponseSerializer <PFURLResponseSerialization> *_af_defaultResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultResponseSerializer = [AFHTTPResponseSerializer serializer];
+        _af_defaultResponseSerializer = [PFHTTPResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -80,7 +80,7 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setResponseSerializer:(AFHTTPResponseSerializer<AFURLResponseSerialization> *)responseSerializer {
+- (void)setResponseSerializer:(PFHTTPResponseSerializer<PFURLResponseSerialization> *)responseSerializer {
     objc_setAssociatedObject(self, @selector(responseSerializer), responseSerializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -124,12 +124,12 @@
 
     request = [self.requestSerializer requestBySerializingRequest:request withParameters:nil error:nil];
 
-    self.af_HTTPRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:request];
+    self.af_HTTPRequestOperation = [[PFHTTPRequestOperation alloc] initWithRequest:request];
     self.af_HTTPRequestOperation.responseSerializer = self.responseSerializer;
 
     __weak __typeof(self)weakSelf = self;
     [self.af_HTTPRequestOperation setDownloadProgressBlock:progress];
-    [self.af_HTTPRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id __unused responseObject) {
+    [self.af_HTTPRequestOperation setCompletionBlockWithSuccess:^(PFHTTPRequestOperation *operation, id __unused responseObject) {
         NSData *data = success ? success(operation.response, operation.responseData) : operation.responseData;
 
 #pragma clang diagnostic push
@@ -142,7 +142,7 @@
         }
         
 #pragma clang diagnostic pop
-    } failure:^(AFHTTPRequestOperation * __unused operation, NSError *error) {
+    } failure:^(PFHTTPRequestOperation * __unused operation, NSError *error) {
         if (failure) {
             failure(error);
         }

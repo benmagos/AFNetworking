@@ -1,6 +1,6 @@
-// UIAlertView+AFNetworking.h
+// UIAlertView+PFNetworking.h
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 PFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -24,16 +24,16 @@
 
 #import <Availability.h>
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(AF_APP_EXTENSIONS)
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(PF_APP_EXTENSIONS)
 
 #import <UIKit/UIKit.h>
 
-@class AFURLConnectionOperation;
+@class PFURLConnectionOperation;
 
 /**
  This category adds methods to the UIKit framework's `UIAlertView` class. The methods in this category provide support for automatically showing an alert if a session task or request operation finishes with an error. Alert title and message are filled from the corresponding `localizedDescription` & `localizedRecoverySuggestion` or `localizedFailureReason` of the error.
  */
-@interface UIAlertView (AFNetworking)
+@interface UIAlertView (PFNetworking)
 
 ///-------------------------------------
 /// @name Showing Alert for Session Task
@@ -75,7 +75,7 @@
  @param operation The request operation.
  @param delegate The alert view delegate.
  */
-+ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(AFURLConnectionOperation *)operation
++ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(PFURLConnectionOperation *)operation
                                                      delegate:(id)delegate;
 
 /**
@@ -86,7 +86,7 @@
  @param cancelButtonTitle The title of the cancel button or nil if there is no cancel button. Using this argument is equivalent to setting the cancel button index to the value returned by invoking addButtonWithTitle: specifying this title.
  @param otherButtonTitles The title of another button. Using this argument is equivalent to invoking addButtonWithTitle: with this title to add more buttons. Too many buttons can cause the alert view to scroll. For guidelines on the best ways to use an alert in an app, see "Temporary Views". Titles of additional buttons to add to the receiver, terminated with `nil`.
  */
-+ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(AFURLConnectionOperation *)operation
++ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(PFURLConnectionOperation *)operation
                                                      delegate:(id)delegate
                                             cancelButtonTitle:(NSString *)cancelButtonTitle
                                             otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION;

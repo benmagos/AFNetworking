@@ -1,6 +1,6 @@
-// UIButton+AFNetworking.h
+// UIButton+PFNetworking.h
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 PFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -28,14 +28,14 @@
 
 #import <UIKit/UIKit.h>
 
-@protocol AFURLResponseSerialization, AFImageCache;
+@protocol PFURLResponseSerialization, PFImageCache;
 
 /**
  This category adds methods to the UIKit framework's `UIButton` class. The methods in this category provide support for loading remote images and background images asynchronously from a URL.
 
  @warning Compound values for control `state` (such as `UIControlStateHighlighted | UIControlStateDisabled`) are unsupported.
  */
-@interface UIButton (AFNetworking)
+@interface UIButton (PFNetworking)
 
 ///----------------------------
 /// @name Accessing Image Cache
@@ -44,25 +44,25 @@
 /**
  The image cache used to improve image loadiing performance on scroll views. By default, `UIButton` will use the `sharedImageCache` of `UIImageView`.
  */
-+ (id <AFImageCache>)sharedImageCache;
++ (id <PFImageCache>)sharedImageCache;
 
 /**
  Set the cache used for image loading.
 
  @param imageCache The image cache.
  */
-+ (void)setSharedImageCache:(id <AFImageCache>)imageCache;
++ (void)setSharedImageCache:(id <PFImageCache>)imageCache;
 
 ///------------------------------------
 /// @name Accessing Response Serializer
 ///------------------------------------
 
 /**
- The response serializer used to create an image representation from the server response and response data. By default, this is an instance of `AFImageResponseSerializer`.
+ The response serializer used to create an image representation from the server response and response data. By default, this is an instance of `PFImageResponseSerializer`.
 
- @discussion Subclasses of `AFImageResponseSerializer` could be used to perform post-processing, such as color correction, face detection, or other effects. See https://github.com/AFNetworking/AFCoreImageSerializer
+ @discussion Subclasses of `PFImageResponseSerializer` could be used to perform post-processing, such as color correction, face detection, or other effects. See https://github.com/PFNetworking/PFCoreImageSerializer
  */
-@property (nonatomic, strong) id <AFURLResponseSerialization> imageResponseSerializer;
+@property (nonatomic, strong) id <PFURLResponseSerialization> imageResponseSerializer;
 
 ///--------------------
 /// @name Setting Image

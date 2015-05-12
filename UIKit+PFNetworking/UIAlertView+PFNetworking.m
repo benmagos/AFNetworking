@@ -1,6 +1,6 @@
-// UIAlertView+AFNetworking.m
+// UIAlertView+PFNetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 PFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,17 +20,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIAlertView+AFNetworking.h"
+#import "UIAlertView+PFNetworking.h"
 
-#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(AF_APP_EXTENSIONS)
+#if defined(__IPHONE_OS_VERSION_MIN_REQUIRED) && !defined(PF_APP_EXTENSIONS)
 
-#import "AFURLConnectionOperation.h"
+#import "PFURLConnectionOperation.h"
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
-#import "AFURLSessionManager.h"
+#import "PFURLSessionManager.h"
 #endif
 
-static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __autoreleasing *title, NSString * __autoreleasing *message) {
+static void PFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __autoreleasing *title, NSString * __autoreleasing *message) {
     if (error.localizedDescription && (error.localizedRecoverySuggestion || error.localizedFailureReason)) {
         *title = error.localizedDescription;
 
@@ -40,21 +40,21 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
             *message = error.localizedFailureReason;
         }
     } else if (error.localizedDescription) {
-        *title = NSLocalizedStringFromTable(@"Error", @"AFNetworking", @"Fallback Error Description");
+        *title = NSLocalizedStringFromTable(@"Error", @"PFNetworking", @"Fallback Error Description");
         *message = error.localizedDescription;
     } else {
-        *title = NSLocalizedStringFromTable(@"Error", @"AFNetworking", @"Fallback Error Description");
-        *message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ Error: %ld", @"AFNetworking", @"Fallback Error Failure Reason Format"), error.domain, (long)error.code];
+        *title = NSLocalizedStringFromTable(@"Error", @"PFNetworking", @"Fallback Error Description");
+        *message = [NSString stringWithFormat:NSLocalizedStringFromTable(@"%@ Error: %ld", @"PFNetworking", @"Fallback Error Failure Reason Format"), error.domain, (long)error.code];
     }
 }
 
-@implementation UIAlertView (AFNetworking)
+@implementation UIAlertView (PFNetworking)
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED >= 70000
 + (void)showAlertViewForTaskWithErrorOnCompletion:(NSURLSessionTask *)task
                                          delegate:(id)delegate
 {
-    [self showAlertViewForTaskWithErrorOnCompletion:task delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"AFNetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
+    [self showAlertViewForTaskWithErrorOnCompletion:task delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"PFNetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
 }
 
 + (void)showAlertViewForTaskWithErrorOnCompletion:(NSURLSessionTask *)task
@@ -72,11 +72,11 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
     }
     va_end(otherButtonTitleList);
 
-    __block __weak id<NSObject> observer = [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingTaskDidCompleteNotification object:task queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
-        NSError *error = notification.userInfo[AFNetworkingTaskDidCompleteErrorKey];
+    __block __weak id<NSObject> observer = [[NSNotificationCenter defaultCenter] addObserverForName:PFNetworkingTaskDidCompleteNotification object:task queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+        NSError *error = notification.userInfo[PFNetworkingTaskDidCompleteErrorKey];
         if (error) {
             NSString *title, *message;
-            AFGetAlertViewTitleAndMessageFromError(error, &title, &message);
+            PFGetAlertViewTitleAndMessageFromError(error, &title, &message);
 
             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:nil delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil, nil];
             for (NSString *otherButtonTitle in mutableOtherTitles) {
@@ -94,13 +94,13 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
 
 #pragma mark -
 
-+ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(AFURLConnectionOperation *)operation
++ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(PFURLConnectionOperation *)operation
                                                      delegate:(id)delegate
 {
-    [self showAlertViewForRequestOperationWithErrorOnCompletion:operation delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"AFNetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
+    [self showAlertViewForRequestOperationWithErrorOnCompletion:operation delegate:delegate cancelButtonTitle:NSLocalizedStringFromTable(@"Dismiss", @"PFNetworking", @"UIAlertView Cancel Button Title") otherButtonTitles:nil, nil];
 }
 
-+ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(AFURLConnectionOperation *)operation
++ (void)showAlertViewForRequestOperationWithErrorOnCompletion:(PFURLConnectionOperation *)operation
                                                      delegate:(id)delegate
                                             cancelButtonTitle:(NSString *)cancelButtonTitle
                                             otherButtonTitles:(NSString *)otherButtonTitles, ... NS_REQUIRES_NIL_TERMINATION
@@ -115,13 +115,13 @@ static void AFGetAlertViewTitleAndMessageFromError(NSError *error, NSString * __
     }
     va_end(otherButtonTitleList);
 
-    __block __weak id<NSObject> observer = [[NSNotificationCenter defaultCenter] addObserverForName:AFNetworkingOperationDidFinishNotification object:operation queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
+    __block __weak id<NSObject> observer = [[NSNotificationCenter defaultCenter] addObserverForName:PFNetworkingOperationDidFinishNotification object:operation queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *notification) {
 
-        if (notification.object && [notification.object isKindOfClass:[AFURLConnectionOperation class]]) {
-            NSError *error = [(AFURLConnectionOperation *)notification.object error];
+        if (notification.object && [notification.object isKindOfClass:[PFURLConnectionOperation class]]) {
+            NSError *error = [(PFURLConnectionOperation *)notification.object error];
             if (error) {
                 NSString *title, *message;
-                AFGetAlertViewTitleAndMessageFromError(error, &title, &message);
+                PFGetAlertViewTitleAndMessageFromError(error, &title, &message);
 
                 UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:nil message:nil delegate:delegate cancelButtonTitle:cancelButtonTitle otherButtonTitles:nil, nil];
                 for (NSString *otherButtonTitle in mutableOtherTitles) {

@@ -1,6 +1,6 @@
-// UIImageView+AFNetworking.m
+// UIImageView+PFNetworking.m
 //
-// Copyright (c) 2013-2015 AFNetworking (http://afnetworking.com)
+// Copyright (c) 2013-2015 PFNetworking (http://afnetworking.com)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -20,24 +20,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#import "UIImageView+AFNetworking.h"
+#import "UIImageView+PFNetworking.h"
 
 #import <objc/runtime.h>
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 
-#import "AFHTTPRequestOperation.h"
+#import "PFHTTPRequestOperation.h"
 
-@interface AFImageCache : NSCache <AFImageCache>
+@interface PFImageCache : NSCache <PFImageCache>
 @end
 
 #pragma mark -
 
-@interface UIImageView (_AFNetworking)
-@property (readwrite, nonatomic, strong, setter = af_setImageRequestOperation:) AFHTTPRequestOperation *af_imageRequestOperation;
+@interface UIImageView (_PFNetworking)
+@property (readwrite, nonatomic, strong, setter = af_setImageRequestOperation:) PFHTTPRequestOperation *af_imageRequestOperation;
 @end
 
-@implementation UIImageView (_AFNetworking)
+@implementation UIImageView (_PFNetworking)
 
 + (NSOperationQueue *)af_sharedImageRequestOperationQueue {
     static NSOperationQueue *_af_sharedImageRequestOperationQueue = nil;
@@ -50,11 +50,11 @@
     return _af_sharedImageRequestOperationQueue;
 }
 
-- (AFHTTPRequestOperation *)af_imageRequestOperation {
-    return (AFHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_imageRequestOperation));
+- (PFHTTPRequestOperation *)af_imageRequestOperation {
+    return (PFHTTPRequestOperation *)objc_getAssociatedObject(self, @selector(af_imageRequestOperation));
 }
 
-- (void)af_setImageRequestOperation:(AFHTTPRequestOperation *)imageRequestOperation {
+- (void)af_setImageRequestOperation:(PFHTTPRequestOperation *)imageRequestOperation {
     objc_setAssociatedObject(self, @selector(af_imageRequestOperation), imageRequestOperation, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -62,14 +62,14 @@
 
 #pragma mark -
 
-@implementation UIImageView (AFNetworking)
+@implementation UIImageView (PFNetworking)
 @dynamic imageResponseSerializer;
 
-+ (id <AFImageCache>)sharedImageCache {
-    static AFImageCache *_af_defaultImageCache = nil;
++ (id <PFImageCache>)sharedImageCache {
+    static PFImageCache *_af_defaultImageCache = nil;
     static dispatch_once_t oncePredicate;
     dispatch_once(&oncePredicate, ^{
-        _af_defaultImageCache = [[AFImageCache alloc] init];
+        _af_defaultImageCache = [[PFImageCache alloc] init];
 
         [[NSNotificationCenter defaultCenter] addObserverForName:UIApplicationDidReceiveMemoryWarningNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification * __unused notification) {
             [_af_defaultImageCache removeAllObjects];
@@ -82,17 +82,17 @@
 #pragma clang diagnostic pop
 }
 
-+ (void)setSharedImageCache:(id <AFImageCache>)imageCache {
++ (void)setSharedImageCache:(id <PFImageCache>)imageCache {
     objc_setAssociatedObject(self, @selector(sharedImageCache), imageCache, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
 #pragma mark -
 
-- (id <AFURLResponseSerialization>)imageResponseSerializer {
-    static id <AFURLResponseSerialization> _af_defaultImageResponseSerializer = nil;
+- (id <PFURLResponseSerialization>)imageResponseSerializer {
+    static id <PFURLResponseSerialization> _af_defaultImageResponseSerializer = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        _af_defaultImageResponseSerializer = [AFImageResponseSerializer serializer];
+        _af_defaultImageResponseSerializer = [PFImageResponseSerializer serializer];
     });
 
 #pragma clang diagnostic push
@@ -101,7 +101,7 @@
 #pragma clang diagnostic pop
 }
 
-- (void)setImageResponseSerializer:(id <AFURLResponseSerialization>)serializer {
+- (void)setImageResponseSerializer:(id <PFURLResponseSerialization>)serializer {
     objc_setAssociatedObject(self, @selector(imageResponseSerializer), serializer, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 }
 
@@ -142,9 +142,9 @@
         }
 
         __weak __typeof(self)weakSelf = self;
-        self.af_imageRequestOperation = [[AFHTTPRequestOperation alloc] initWithRequest:urlRequest];
+        self.af_imageRequestOperation = [[PFHTTPRequestOperation alloc] initWithRequest:urlRequest];
         self.af_imageRequestOperation.responseSerializer = self.imageResponseSerializer;
-        [self.af_imageRequestOperation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [self.af_imageRequestOperation setCompletionBlockWithSuccess:^(PFHTTPRequestOperation *operation, id responseObject) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
                 if (success) {
@@ -159,7 +159,7 @@
             }
 
             [[[strongSelf class] sharedImageCache] cacheImage:responseObject forRequest:urlRequest];
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        } failure:^(PFHTTPRequestOperation *operation, NSError *error) {
             __strong __typeof(weakSelf)strongSelf = weakSelf;
             if ([[urlRequest URL] isEqual:[strongSelf.af_imageRequestOperation.request URL]]) {
                 if (failure) {
@@ -185,11 +185,11 @@
 
 #pragma mark -
 
-static inline NSString * AFImageCacheKeyFromURLRequest(NSURLRequest *request) {
+static inline NSString * PFImageCacheKeyFromURLRequest(NSURLRequest *request) {
     return [[request URL] absoluteString];
 }
 
-@implementation AFImageCache
+@implementation PFImageCache
 
 - (UIImage *)cachedImageForRequest:(NSURLRequest *)request {
     switch ([request cachePolicy]) {
@@ -200,14 +200,14 @@ static inline NSString * AFImageCacheKeyFromURLRequest(NSURLRequest *request) {
             break;
     }
 
-	return [self objectForKey:AFImageCacheKeyFromURLRequest(request)];
+	return [self objectForKey:PFImageCacheKeyFromURLRequest(request)];
 }
 
 - (void)cacheImage:(UIImage *)image
         forRequest:(NSURLRequest *)request
 {
     if (image && request) {
-        [self setObject:image forKey:AFImageCacheKeyFromURLRequest(request)];
+        [self setObject:image forKey:PFImageCacheKeyFromURLRequest(request)];
     }
 }
 

@@ -1,6 +1,6 @@
-// UIKit+AFNetworking.h
+// UIKit+PFNetworking.h
 //
-// Copyright (c) 2013 AFNetworking (http://afnetworking.com/)
+// Copyright (c) 2013 PFNetworking (http://afnetworking.com/)
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -22,17 +22,17 @@
 
 #import <UIKit/UIKit.h>
 
-#ifndef _UIKIT_AFNETWORKING_
-    #define _UIKIT_AFNETWORKING_
+#ifndef _UIKIT_PFNETWORKING_
+    #define _UIKIT_PFNETWORKING_
 
-    #import "AFNetworkActivityIndicatorManager.h"
+    #import "PFNetworkActivityIndicatorManager.h"
 
-    #import "UIActivityIndicatorView+AFNetworking.h"
-    #import "UIAlertView+AFNetworking.h"
-    #import "UIButton+AFNetworking.h"
-    #import "UIImageView+AFNetworking.h"
-    #import "UIKit+AFNetworking.h"
-    #import "UIProgressView+AFNetworking.h"
-    #import "UIRefreshControl+AFNetworking.h"
-    #import "UIWebView+AFNetworking.h"
-#endif /* _UIKIT_AFNETWORKING_ */
+    #import "UIActivityIndicatorView+PFNetworking.h"
+    #import "UIAlertView+PFNetworking.h"
+    #import "UIButton+PFNetworking.h"
+    #import "UIImageView+PFNetworking.h"
+    #import "UIKit+PFNetworking.h"
+    #import "UIProgressView+PFNetworking.h"
+    #import "UIRefreshControl+PFNetworking.h"
+    #import "UIWebView+PFNetworking.h"
+#endif /* _UIKIT_PFNETWORKING_ */
